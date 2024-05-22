@@ -3,9 +3,10 @@ from typing import Generator
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from app.config import config
 
-db_engine = create_engine(config.RDS_URI, pool_pre_ping=True, echo=True)
+RDS_URI = 'postgresql://training:training@postgres:5432/training'
+
+db_engine = create_engine(RDS_URI, pool_pre_ping=True, echo=True)
 db_session_maker = sessionmaker(bind=db_engine)
 
 

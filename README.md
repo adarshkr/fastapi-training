@@ -50,9 +50,11 @@ docker compose build --no-cache
 docker compose up -d
 ```
 
-5. Access the swagger docs at http://127.0.0.1:8000/docs
+5. Access the swagger docs at http://localhost:8000/docs
 
-6. deactivate
+6. Access the PgAdmin at http://localhost:8080 
+
+7. Deactivate  virtual environment
 ```bash
 deactivate
 ```

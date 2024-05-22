@@ -11,11 +11,11 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - postgres-training:/var/lib/postgresql/data:cached
+      - postgres-training-1:/var/lib/postgresql/data:cached
     restart: unless-stopped
     networks:
       - network-service
-
+  
   backend:
     build:
       context: .
@@ -26,7 +26,6 @@ services:
       - ./.docker/.ipython:/root/.ipython:cached
     environment:
       PYTHONPATH: .
-      RDS_URI: 'postgresql://training:training@postgres:5432/training'
     env_file:
       - .env.dev
     ports:
@@ -47,14 +46,14 @@ services:
       PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
       PGADMIN_DEFAULT_PASSWORD: admin
     volumes:
-      - pgadmin-data:/var/lib/pgadmin
+      - pgadmin-data-1:/var/lib/pgadmin
     restart: unless-stopped
     networks:
       - network-service
 
 volumes:
-  postgres-training:
-  pgadmin-data:
+  postgres-training-1:
+  pgadmin-data-1:
 
 networks:
   network-service:
