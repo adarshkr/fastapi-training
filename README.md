@@ -39,9 +39,15 @@ On Windows, use:
 pip install -r requirements.txt
 ```
 
-4. Finally, you can run the application:
+<!-- 4. Finally, you can run the application:
 ```bash
 uvicorn main:app --reload
+``` -->
+
+4. Finally, you can run the application:
+```bash
+docker compose build --no-cache
+docker compose up -d
 ```
 
 5. Access the swagger docs at http://127.0.0.1:8000/docs

@@ -1,0 +1,62 @@
+version: "3.8"
+services:
+  postgres:
+    image: postgres:15-alpine
+    hostname: postgres
+    environment:
+      POSTGRES_USER: training
+      POSTGRES_PASSWORD: training
+      POSTGRES_DB: training
+      DEV_MODE: True
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres-training:/var/lib/postgresql/data:cached
+    restart: unless-stopped
+    networks:
+      - network-service
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    tty: true
+    volumes:
+      - ./:/service/:cached
+      - ./.docker/.ipython:/root/.ipython:cached
+    environment:
+      PYTHONPATH: .
+      RDS_URI: 'postgresql://training:training@postgres:5432/training'
+    env_file:
+      - .env.dev
+    ports:
+      - "8000:8000"
+    depends_on:
+      - "postgres"
+    entrypoint: sh -c "./prestart.sh"
+    networks:
+      - network-service
+
+  pgadmin:
+    image: dpage/pgadmin4
+    depends_on:
+      - postgres
+    ports:
+      - "8080:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
+      PGADMIN_DEFAULT_PASSWORD: admin
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    restart: unless-stopped
+    networks:
+      - network-service
+
+volumes:
+  postgres-training:
+  pgadmin-data:
+
+networks:
+  network-service:
+    driver: bridge
+    name: service_network
