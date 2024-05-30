@@ -3,6 +3,11 @@ uvicorn
 python-multipart
 pydantic
 pydantic_settings
-psycopg2-binary 
-sqlalchemy
+load_dotenv
 alembic
+tenacity
+psycopg2-binary 
+sqlalchemy[mypy]
+datetime
+python-jose[cryptography]
+passlib[bcrypt]
